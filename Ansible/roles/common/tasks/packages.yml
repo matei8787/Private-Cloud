@@ -1,0 +1,31 @@
+- name: Update apt cache (apt update)
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600 # Don't update if we updated in the last hour
+
+- name: Install packages (apt install ...)
+  apt:
+    name:
+      - curl
+      - git
+      - htop
+      - ufw
+      - fail2ban
+      - python3-pip
+    state: present
+
+- name: Install unattended upgrades
+  apt:
+    name: unattended-upgrades
+    state: present
+
+- name: Enable Unattended Upgrades for Security # apt update every 1 day, 
+                                                # if you foud updates, install them every 1 day
+                                                # apt autoclean every 7 days
+  copy:
+    dest: /etc/apt/apt.conf.d/20auto-upgrades
+    content: |
+      APT::Periodic::Update-Package-Lists "1"; 
+      APT::Periodic::Unattended-Upgrade "1";
+      APT::Periodic::AutocleanInterval "7";
+    mode: '0644'

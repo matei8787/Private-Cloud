@@ -1,0 +1,9 @@
+---
+- name: "Import packages setup"
+  import_tasks: packages.yml
+
+- name: "Import Firewall Config"
+  import_tasks: firewall.yml
+
+- name: "Import ssh Hardening"
+  import_tasks: ssh.yml

@@ -1,0 +1,23 @@
+{% extends "hello/base.html" %}
+
+{% block title %}Hello{% endblock title %}
+
+{% block body %}
+<h1> Hello to the starting page of future development and security! </h1>
+<br>
+<h2> You see this so there is 1 of 3 possibilities: </h2>
+<ol>
+    <li> <h4> You are me, in which case, nothing wow </h4> </li>
+    <li> <h4> You got here through a code I gave you, in which case, horray, everything is up! </h4> </li>
+    <li> <h4> You got here through a code I didn't give you or in an unintended way, in which case...LET THE GAMES BEGIN! </h4> </l1>
+</ol>
+<br>
+<h2> Here is a list of the apps: </h2>
+<ul>
+{% for app in apps %}
+    <li> <a href={{app.link}}>{{app.name}}</a></li>
+{% empty %}
+    <h3> Sadly, there are no apps for now :( </h3>
+{% endfor %}
+</ul>
+{% endblock body %}

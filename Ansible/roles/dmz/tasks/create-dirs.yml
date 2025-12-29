@@ -1,0 +1,15 @@
+- name: Create dir for certs
+  file:
+    path: "/etc/pki/certs/"
+    state: directory
+    owner: app_runner
+    group: apps
+    mode: '0600'
+
+- name: Copy certs to certs dir
+  copy:
+    src: "../certs/traefik/"
+    dest: "/etc/pki/certs/"
+    owner: app_runner
+    group: apps
+    mode: '0600'

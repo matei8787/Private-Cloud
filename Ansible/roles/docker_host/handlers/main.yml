@@ -1,0 +1,3 @@
+
+- name: Use Docker daemon handler
+  import_tasks: docker-daemon.yml

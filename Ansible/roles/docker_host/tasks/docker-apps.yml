@@ -1,0 +1,8 @@
+
+- name: Create base dir for persistent volumes
+  file:
+    path: /var/lib
+    state: directory
+    owner: app_runner
+    group: apps
+    mode: "0775"

@@ -1,0 +1,24 @@
+- name: Create dirs for persistent volumes
+  file:
+    path: "/var/lib/{{ item }}"
+    state: directory
+    owner: app_runner
+    group: apps
+    mode: '0775'
+  loop: "{{ persistent_volumes }}"
+
+- name: Create dir for certs
+  file:
+    path: "/etc/pki/certs/"
+    state: directory
+    owner: app_runner
+    group: apps
+    mode: '0600'
+
+- name: Copy certs to certs dir
+  copy:
+    src: "../certs/nginx/"
+    dest: "/etc/pki/certs/"
+    owner: app_runner
+    group: apps
+    mode: '0600'

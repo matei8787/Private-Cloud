@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+
+{% block title %}Entrypoint{% endblock title %}
+
+{% block body %}
+<h1>Generate OpenVPN Config</h1>
+
+<form method="POST" action='{% url "export" %}'>
+    {% csrf_token %} 
+    {{ form.as_p }}
+    <button type="submit">Generate</button>
+</form>
+{% endblock  %}

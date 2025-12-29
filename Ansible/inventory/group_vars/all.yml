@@ -1,0 +1,7 @@
+
+persistent_volumes:
+  - postgres
+
+cert_needed_apps:
+  - nginx
+  - traefik

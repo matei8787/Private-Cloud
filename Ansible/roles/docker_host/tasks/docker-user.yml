@@ -1,0 +1,37 @@
+
+- name: Create "apps" group for Docker apps
+  group:
+    name: apps
+    gid: 1420
+    state: present
+
+- name: Create "app_runner" user for Docker apps
+  user:
+    name: app_runner
+    uid: 1420
+    group: apps
+    groups: docker
+    append: yes
+    shell: /bin/bash
+    create_home: yes
+    system: yes
+    state: present
+
+- name: Ensure app_runner home dir login
+  file:
+    path: /home/app_runner/containers
+    state: directory
+    owner: app_runner
+    group: apps
+
+- name: Add ssh key for app_runner user
+  authorized_key:
+    user: app_runner
+    state: present
+    key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEW6YKm6hgVzzDKWUFXQMxGt0OMk5jQGQ7MtXm8Fs2V0 matei@matei-LOQ-15IAX9I"
+
+- name: Add admin user to docker group
+  user:
+    name: dorb
+    groups: docker
+    append: yes

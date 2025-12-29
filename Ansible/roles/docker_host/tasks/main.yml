@@ -1,0 +1,9 @@
+
+- name: Import Docker Installation
+  import_tasks: docker-install.yml
+
+- name: Create Docker apps user, groups and files
+  import_tasks: docker-user.yml
+
+- name: Create folders for docker apps
+  import_tasks: docker-apps.yml

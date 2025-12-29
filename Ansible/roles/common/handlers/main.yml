@@ -1,0 +1,2 @@
+- name: Import restarts
+  import_tasks: restarts.yml

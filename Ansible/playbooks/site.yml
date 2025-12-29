@@ -1,0 +1,21 @@
+- name: Apply Common Config
+  hosts: all
+  become: true
+
+  roles:
+    - common
+    - docker_host
+
+- name: Apply Server Config
+  hosts: servers
+  become: true
+
+  roles:
+    - server
+
+- name: Apply DMZ Config
+  hosts: dmz
+  become: true
+
+  roles:
+    - dmz

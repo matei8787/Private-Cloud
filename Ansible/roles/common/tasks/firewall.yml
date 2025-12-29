@@ -1,0 +1,60 @@
+---
+- name: Set UFW Default Deny in rule
+  ufw:
+    direction: incoming
+    policy: deny
+
+- name: Set UFW Default Deny Outgoung rule
+  ufw:
+    direction: outgoing
+    policy: deny
+
+# ALLOW in
+
+- name: Allow SSH in
+  ufw:
+    rule: allow
+    port: 22
+    proto: tcp
+    direction: in
+  
+# ALLOW out
+
+- name: Allow HTTP/S, DNS-TCP
+  ufw:
+    rule: allow
+    port: '{{ item }}'
+    proto: tcp
+    direction: out
+    comment: APT, Docker, Big DNS
+  loop:
+    - 80
+    - 443
+    - 53
+  
+- name: Allow NTP, DNS-UDP
+  ufw:
+    rule: allow
+    port: '{{ item }}'
+    proto: udp
+    direction: out
+    comment: NTP, Fast DNS
+  loop:
+    - 123
+    - 53
+
+- name: Enable UFW (Async to prevent disconnect hang)
+  ufw:
+    state: enabled
+  # "Async" tells Ansible: "Run this, wait X seconds max."
+  async: 180
+  # "Poll: 0" tells Ansible: "Don't actually wait. Fire the command and move on instantly."
+  poll: 0
+  register: ufw_enable
+
+- name: Wait for connectivity to return
+  # This task tries to ping the server until it responds, ensuring the
+  # new firewall rules didn't permanently lock us out.
+  wait_for_connection:
+    delay: 5
+    timeout: 60

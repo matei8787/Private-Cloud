@@ -1,0 +1,9 @@
+*.pyc
+venv/
+*.key
+.vscode/
+*.pem
+*.log
+*.sqlite3
+*.db
+acme/

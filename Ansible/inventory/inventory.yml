@@ -1,0 +1,11 @@
+all:
+  children:
+    servers:
+      hosts:
+        servers_node1:
+          ansible_host:
+    dmz:
+      hosts:
+        dmz_node1:
+          ansible_host: 
+

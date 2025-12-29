@@ -1,0 +1,15 @@
+- name: Config Docker Daemon (Log rotation)
+  template:
+    src: daemon.json.j2
+    dest: /etc/docker/daemon.json
+    mode: '0644'
+  notify: Restart Docker
+
+- name: Weekly Docker system cleanup # If an image is upgraded, to remove the old image
+  cron:
+    name: "Docker system cleanup"
+    minute: '30'
+    hour: '2'
+    weekday: '0' # Run Sunday at 2:30 AM
+    job: "/usr/bin/docker system prune -af --volumes > /dev/null 2>&1"
+    user: root
