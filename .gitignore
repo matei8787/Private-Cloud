@@ -7,4 +7,4 @@ venv/
 *.sqlite3
 *.db
 acme/
-migrations/
+*migrations*
