@@ -1,0 +1,18 @@
+http:
+  services:
+    ovpn-starter:
+      loadBalancer:
+        servers:
+          - url: https://${OPENVPN_IP}:${OPENVPN_PORT}
+        passHostHeader: true
+        serversTransport: internal-transport
+
+    noop:
+      loadBalancer:
+        servers:
+          - url: "http://127.0.0.1"
+
+  serversTransports:
+    internal-transport:
+      rootCAs:
+        - /certs/pfSense_Management_CA.crt

@@ -1,0 +1,21 @@
+http:
+  routers:
+    ovpn-router:
+      rule: "Host(`${OPENVPN_HOST}`)"
+      entryPoints: 
+        - websec
+      service: ovpn-starter
+      tls:
+        certResolver: letsencrypt
+      middlewares:
+        - ratelimit
+        - secure-headers
+
+    http-redirect:
+      rule: "Host(`${OPENVPN_HOST}`) && PathPrefix(`/`) && !PathPrefix(`/.well-known/acme-challenge/`)"
+      entryPoints:
+        - web
+      middlewares:
+        - redirect-to-https
+      service: noop
+      

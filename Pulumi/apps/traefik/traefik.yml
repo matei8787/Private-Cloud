@@ -1,0 +1,34 @@
+
+entryPoints:
+  web:
+    address: ":80"
+    forwardedHeaders:
+      trustedIPs:
+        - "0.0.0.0/0"
+  websec:
+    address: ":443"
+    forwardedHeaders:
+      trustedIPs:
+        - "0.0.0.0/0"
+
+  
+providers:
+  file:
+    directory: "/dynamic"
+    watch: true
+
+certificatesResolvers:
+  letsencrypt:
+    acme:
+      email: "matei8787@gmail.com"
+      storage: "/acme/acme.json"
+      httpChallenge:
+        entryPoint: web
+
+log:
+  level: INFO
+  filePath: /logs/traefik.log
+
+accessLog:
+  filePath: /logs/access.log
+  bufferingSize: 100
