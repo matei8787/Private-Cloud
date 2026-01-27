@@ -3,6 +3,15 @@ import pulumi
 
 secrets = pulumi.StackReference("matei8787/configs/dev")
 
+config = pulumi.Config()
+
+try:
+    run_option = config.require('runOption')
+except Exception as e:
+    pulumi.log.error(f"Missing required configuration: {e}")
+    raise
+
+
 def safe_get_output(name, default):
     aux_output = secrets.get_output(name)
     
@@ -25,7 +34,8 @@ try:
     global_domain = secrets.require_output('globalDnsDomain')
     node_name = secrets.require_output("proxmoxNodeName")
     public_key = secrets.require_output('sshPublicKey')
-
+    gitlab_runner_key = secrets.require_output('gitlabRunnerKey')
+    gitlab_server_key = secrets.require_output('gitlabServerKey')
     
 except Exception as e:
     pulumi.log.error(f"Missing required proxmox configuration: {e}")
@@ -41,10 +51,12 @@ except Exception as e:
 
 
 server_name = safe_get_output("serverName", "ubuntu")
-server_cpus = safe_get_output("ubuntuCpus", 2)
+server_cpus = safe_get_output("ubuntuCpu", 2)
 server_memory =safe_get_output("ubuntuMemory", 4096)
 server_storage = safe_get_output("ubuntuStorage", 50) 
 server_bridge_name = safe_get_output("lanBridgeName", "vmbr1")
 dmz_bridge_name = safe_get_output("dmzBridgeName", "vmbr2")
 dmz_ip = safe_get_output("dmzIpAddress", None)
 server_ip = safe_get_output("ubuntuStaticIp", None)
+server_vlan_id = safe_get_output("serverVlan", None)
+dmz_vlan_id = safe_get_output("dmzVlan", None)

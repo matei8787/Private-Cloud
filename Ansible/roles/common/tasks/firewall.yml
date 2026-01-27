@@ -4,7 +4,7 @@
     direction: incoming
     policy: deny
 
-- name: Set UFW Default Deny Outgoung rule
+- name: Set UFW Default Deny out rule
   ufw:
     direction: outgoing
     policy: deny

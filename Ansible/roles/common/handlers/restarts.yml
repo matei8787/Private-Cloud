@@ -1,6 +1,6 @@
 - name: Restart SSH
   service:
-    name: sshd
+    name: "{{ ssh_service_name }}"
     state: restarted
 
 - name: Restart Fail2Ban

@@ -3,6 +3,16 @@
     update_cache: yes
     cache_valid_time: 3600 # Don't update if we updated in the last hour
 
+- name: Wait for automatic system updates to finish (Avoid apt lock)
+  ansible.builtin.shell: |
+    while fuser /var/lib/dpkg/lock-frontend >/dev/null 2>&1; do
+      echo "Waiting for apt lock..."
+      sleep 5
+    done
+  changed_when: false
+  failed_when: false
+
+
 - name: Install packages (apt install ...)
   apt:
     name:
@@ -13,6 +23,8 @@
       - fail2ban
       - python3-pip
     state: present
+  retries: 20
+  delay: 10
 
 - name: Install unattended upgrades
   apt:

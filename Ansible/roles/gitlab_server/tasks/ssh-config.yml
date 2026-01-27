@@ -1,0 +1,20 @@
+- name: Configure SSH Daemon to listen on custom port
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?Port"
+    line: "Port {{ gitlab_ssh_port }}"
+  notify: Restart SSH
+
+- name: Ensure SSH restarted
+  service:
+    name: "{{ ssh_service_name }}"
+    state: restarted
+
+- name: Update connection port
+  set_fact:
+    ansible_ssh_port: "{{ gitlab_ssh_port }}"
+
+- name: Wait for SSH to return
+  wait_for_connection:
+    delay: 5
+    timeout: 60

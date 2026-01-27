@@ -1,0 +1,13 @@
+config:
+  Misc:proxmoxTokenSecret:
+    secure: AAABAALtT/nzEoAbiJx+gP3qyZtgD4lUG2aj5I5D8YIAQC9UdXaPNfPPTrNKB3TmWa6Qa6ewM0PU8EFqNHynpCjpjgE=
+  Misc:proxmoxTokenId:
+    secure: AAABALB9M0oNChHwexWvL1oZS/bhn93v/eerIR4FlJ3gO2goNtWaXwqvjz3H
+  Misc:proxmoxUrl:
+    secure: AAABAHse4QOSFAq6s4bGILZqQkh4fP6qv7kj7Z0S35+S95wxSiyVLQNA2413nxAPTLcoZ9QuglbQyyvOtjmEmBgL9wC/
+  Misc:proxmoxUser:
+    secure: AAABACN8STdBPA2YAjR3dxjIAWU578eh5PdlORqo3jDKbHRj
+  Misc:proxmoxPass:
+    secure: AAABAAhdqTEXkRymWDkrWUQoqjfT+0rNiu5v8fCGC34eku1ezgcuS8s=
+  Misc:sshPublicKey:
+    secure: AAABANBdKlUoWekikANnd7LWb+F3T4pl3ve0risjciP/EQrQSekzgq9DiS6dBpRu+Dp4H2Cqf05QFsqg6kUjIlHi+YWbTJunutW4FOUYzoCxSN0DzhuYTIW74oU/sdUka6zhVhKSKCcjicFQxIHYgOk4QFVcTubz5TigyPMxRKO41KxhjVgxqrA=

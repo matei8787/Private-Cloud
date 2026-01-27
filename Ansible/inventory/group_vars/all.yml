@@ -5,3 +5,9 @@ persistent_volumes:
 cert_needed_apps:
   - nginx
   - traefik
+
+ssh_service_name: "{{ 'ssh' if ansible_os_family == 'Debian' else 'sshd' }}"
+gitlab_ssh_port: 2222
+gitlab_internal_port: 8081
+gitlab_external_url: "https://gitlab.dorb.internal"
+swap_size: "4G"

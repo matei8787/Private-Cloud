@@ -1,0 +1,16 @@
+[1;35m[WARNING]: Skipping 'servers' as this is not a valid group definition[0m
+[1;35m[WARNING]: Skipping 'dmz' as this is not a valid group definition[0m
+[1;35m[WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'[0m
+
+PLAY [Apply Common Config] *****************************************************
+[0;36mskipping: no hosts matched[0m
+[1;35m[WARNING]: Could not match supplied host pattern, ignoring: servers[0m
+
+PLAY [Apply Server Config] *****************************************************
+[0;36mskipping: no hosts matched[0m
+[1;35m[WARNING]: Could not match supplied host pattern, ignoring: dmz[0m
+
+PLAY [Apply DMZ Config] ********************************************************
+[0;36mskipping: no hosts matched[0m
+
+PLAY RECAP *********************************************************************

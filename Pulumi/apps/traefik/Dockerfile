@@ -10,7 +10,6 @@ COPY ./acme /acme
 COPY ./config /config
 COPY ./logs /logs
 
-
 RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["--configFile=/traefik.yml"]

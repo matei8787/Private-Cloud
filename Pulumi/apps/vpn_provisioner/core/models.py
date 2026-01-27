@@ -1,19 +1,6 @@
 from cryptography.fernet import Fernet
 from django.conf import settings
 from django.db import models
-import base64
-
-# Generate once: base64.urlsafe_b64encode(32-byte key)
-FERNET_KEY = base64.urlsafe_b64encode(settings.SECRET_KEY.encode().ljust(32)[:32])
-
-def encrypt_value(value: str) -> str:
-    f = Fernet(FERNET_KEY)
-    return f.encrypt(value.encode()).decode()
-
-def decrypt_value(token: str) -> str:
-    f = Fernet(FERNET_KEY)
-    return f.decrypt(token.encode()).decode()
-
 
 # Create your models here.
 class LAN(models.Model):

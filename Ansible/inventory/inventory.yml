@@ -2,10 +2,20 @@ all:
   children:
     servers:
       hosts:
-        servers_node1:
-          ansible_host:
+        server-vm:
+          ansible_host: 10.69.10.5
+          ansible_port: 22
     dmz:
       hosts:
-        dmz_node1:
-          ansible_host: 
+        dmz-vm:
+          ansible_host: 10.69.20.5
+          ansible_port: 22
+    gitlab:
+      hosts:
+        gitlab-server:
+          ansible_host: 10.69.10.6
+          ansible_port: 22
+        gitlab-runner:
+          ansible_host: 10.69.10.7
+          ansible_port: 22
 

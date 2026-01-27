@@ -12,31 +12,81 @@
     state: directory
     mode: '0755'
 
+- name: Remove Docker repo lists to force sync
+  file:
+    path: /var/lib/apt/lists/download.docker.com_linux_ubuntu_dists_jammy_InRelease
+    state: absent
+    force: false #don't error if file doesn't exist
+
 - name: Download Docker's official GPG key
   get_url:
     url: https://download.docker.com/linux/ubuntu/gpg
     dest: /etc/apt/keyrings/docker.asc
     mode: '0644'
-    force: false #don't redownload if it exists
+    force: true #redownload even if it exists
+# 1. Clean the slate
+- name: Remove Corrupted Docker Source File
+  file:
+    path: /etc/apt/sources.list.d/docker.list
+    state: absent
 
 - name: Add Docker repo to Apt sources
   apt_repository:
-    repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable"
-    state: present
+    repo: "deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu {{ ansible_facts['distribution_release'] }} stable"
     filename: docker
+    state: present
 
-- name: Install Docker Engine and plugins
+- name: Update Apt Cache
+  apt:
+    update_cache: yes
+    cache_valid_time: 0
+
+# 2. DYNAMICALLY FIND A WORKING VERSION
+# We grab the 2nd available version to bypass the broken "Latest" (HEAD)
+- name: Find second-newest Docker version
+  shell: |
+    set -o pipefail
+    apt-cache madison docker-ce | awk -F '|' '{print $2}' | sed -n '2p' | xargs
+  args:
+    executable: /bin/bash
+  register: docker_version_safe
+  changed_when: false
+
+- name: Find second-newest Containerd version
+  shell: |
+    set -o pipefail
+    apt-cache madison containerd.io | awk -F '|' '{print $2}' | sed -n '2p' | xargs
+  args:
+    executable: /bin/bash
+  register: containerd_version_safe
+  changed_when: false
+
+- name: Debug Versions
+  debug:
+    msg: "Installing Safe Versions -> Docker: {{ docker_version_safe.stdout }} | Containerd: {{ containerd_version_safe.stdout }}"
+
+# 3. Clean up previous failed installs
+- name: Fix broken dpkg state
+  shell: dpkg --configure -a || true
+  changed_when: false
+
+# 4. Install the Safe Versions
+- name: Install Docker Engine (Pinned to Safe Version)
   apt:
     name:
-      - docker-ce
-      - docker-ce-cli
-      - containerd.io
+      - "docker-ce={{ docker_version_safe.stdout }}"
+      - "docker-ce-cli={{ docker_version_safe.stdout }}"
+      - "containerd.io={{ containerd_version_safe.stdout }}"
       - docker-buildx-plugin
       - docker-compose-plugin
     state: present
-    update_cache: true
+    allow_downgrade: yes
+  register: apt_install
+  retries: 3
+  delay: 10
+  until: apt_install is success
 
-- name: Ensude Docker Service is running and enabled
+- name: Ensure Docker Service is running
   service: 
     name: docker
     state: started

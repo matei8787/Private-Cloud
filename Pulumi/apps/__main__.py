@@ -1,12 +1,14 @@
 """A Python Pulumi program"""
 
+import os
 import pulumi
 from pulumi import ResourceOptions
 from imports import *
 from create import *
+import pulumi_command as command
 
 
-def remote_docker_provider(name: str, user: pulumi.Input[str], address: pulumi.Input[str]):
+def remote_docker_provider(name: str, user: pulumi.Output[str], address: pulumi.Output[str]):
     return docker.Provider(name,
                            host=pulumi.Output.concat('ssh://', user, '@', address))
 
@@ -16,7 +18,7 @@ dmz_prov = remote_docker_provider('docker-prov-dmz', server_user, dmz_ip)
 internal_network = docker.Network('internal-network',
                                   opts=pulumi.ResourceOptions(provider=server_prov))
 class Postgress:
-    def __init__(self, prov: docker.Provider, docker_user: pulumi.Input[str], docker_pass: pulumi.Input[str], postgres_env):
+    def __init__(self, prov: docker.Provider, docker_user: pulumi.Output[str], docker_pass: pulumi.Output[str], postgres_env):
         self.volume = docker.Volume('postgres_data',
                                 opts=pulumi.ResourceOptions(provider=prov))
 
@@ -38,7 +40,7 @@ class Postgress:
                                     opts=ResourceOptions(provider=prov, depends_on=[self.img]))
 
 class Redis:
-    def __init__(self, prov: docker.Provider, docker_user: pulumi.Input[str], docker_pass: pulumi.Input[str]):
+    def __init__(self, prov: docker.Provider, docker_user: pulumi.Output[str], docker_pass: pulumi.Output[str]):
         self.volume = docker.Volume('redis_data',
                                     opts=pulumi.ResourceOptions(provider=prov))
 
@@ -61,7 +63,7 @@ class Redis:
                                     opts=ResourceOptions(provider=prov, depends_on=[self.img]))
 
 class VPNApp:
-    def __init__(self, prov: docker.Provider, docker_user: pulumi.Input[str], docker_pass: pulumi.Input[str], vpn_env):
+    def __init__(self, prov: docker.Provider, docker_user: pulumi.Output[str], docker_pass: pulumi.Output[str], vpn_env):
         self.static_volume = docker.Volume('vpn_static',
                                             opts=pulumi.ResourceOptions(provider=prov))
         self.media_volume = docker.Volume('vpn_media',
@@ -88,7 +90,7 @@ class VPNApp:
                                     ports={8000:None})
         
 class HelloApp:
-    def __init__(self, prov: docker.Provider, docker_user: pulumi.Input[str], docker_pass: pulumi.Input[str], hello_env):
+    def __init__(self, prov: docker.Provider, docker_user: pulumi.Output[str], docker_pass: pulumi.Output[str], hello_env):
         self.static_volume = docker.Volume('hello_static',
                                             opts=pulumi.ResourceOptions(provider=prov))
         self.img = create_image('hello-app',
@@ -110,7 +112,7 @@ class HelloApp:
                                     ports={8000:None})
         
 class VaultApp:
-    def __init__(self, prov: docker.Provider, docker_user: pulumi.Input[str], docker_pass: pulumi.Input[str], vault_env):
+    def __init__(self, prov: docker.Provider, docker_user: pulumi.Output[str], docker_pass: pulumi.Output[str], vault_env):
         self.data_volume = docker.Volume('vault_data',
                                             opts=pulumi.ResourceOptions(provider=prov))
         self.img = create_image('vaultwarden',
@@ -135,8 +137,8 @@ class Nginx:
     def __init__(
         self, 
         prov: docker.Provider, 
-        docker_user: pulumi.Input[str], 
-        docker_pass: pulumi.Input[str], 
+        docker_user: pulumi.Output[str], 
+        docker_pass: pulumi.Output[str], 
         shared_volumes: list, 
         host_cert_path: str 
     ):
@@ -178,8 +180,35 @@ class Nginx:
         )
 
 
+
+
+
+
+
+
+
+
+def wait_for_machine(ip: pulumi.Output, server_id, dependency, name):
+      return command.local.Command(f'wait-for-port22-{name}',
+                                         create=ip.apply(lambda x: f"while ! nc -z {x} 22; do\nsleep 1 \ndone\n echo 'port 22 is up'"),
+                                         triggers=[server_id],
+                                         opts = pulumi.ResourceOptions(depends_on=[dependency]))
+
+def wait_for_ssh(ip, server_id, dependency, name):
+      return command.remote.Command(f'wait-ssh-{name}',
+                                    connection={
+                                          'host': ip,
+                                          'user': 'dorb',
+                                          'agent_socket_path': os.environ.get("SSH_AUTH_SOCK"),
+                                    },
+                                    triggers=[server_id],
+                                    create="echo 'SSH is ready!'",
+                                    opts=pulumi.ResourceOptions(depends_on=[dependency]))
+
+
 class Servers:
-    def __init__(self, prov: docker.Provider, docker_user: pulumi.Input[str], docker_pass: pulumi.Input[str]):
+    def __init__(self, prov: docker.Provider, docker_user: pulumi.Output[str], docker_pass: pulumi.Output[str]):
+        
         self.postgres = Postgress(prov, docker_user, docker_pass, postgres_env)
         self.redis = Redis(prov, docker_user, docker_pass)
         self.vpn_app = VPNApp(prov, docker_user, docker_pass, vpn_env)
@@ -201,8 +230,8 @@ class Traefik:
     def __init__(
         self, 
         prov: docker.Provider, 
-        docker_user: pulumi.Input[str], 
-        docker_pass: pulumi.Input[str], 
+        docker_user: pulumi.Output[str], 
+        docker_pass: pulumi.Output[str], 
         host_cert_path: str  
     ):
         self.img = create_image('traefik', 
@@ -234,8 +263,8 @@ class Traefik:
         
 
 class DMZ:
-    def __init__(self, prov: docker.Provider, docker_user: pulumi.Input[str], docker_pass: pulumi.Input[str]):
-        host_cert_path = '/certs'
+    def __init__(self, prov: docker.Provider, docker_user: pulumi.Output[str], docker_pass: pulumi.Output[str]):
+        host_cert_path = '/etc/pki/certs'
         self.traefik = Traefik(prov, docker_user, docker_pass, host_cert_path=host_cert_path)
 
 

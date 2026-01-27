@@ -1,0 +1,35 @@
+ # --- GitLab Installation ---
+- name: Install dependencies
+  apt:
+    name: [curl, openssh-server, ca-certificates, tzdata, perl, postfix]
+    state: present
+    update_cache: yes
+
+
+- name: Download GitLab GPG key
+  get_url:
+    url: https://packages.gitlab.com/gitlab/gitlab-ce/gpgkey
+    # IMPORTANT: The .asc extension tells apt "This is a text key, not binary"
+    dest: /usr/share/keyrings/gitlab_gitlab-ce-archive-keyring.asc
+    mode: '0644'
+    force: yes
+
+- name: Add GitLab Repository
+  apt_repository:
+    repo: deb [signed-by=/usr/share/keyrings/gitlab_gitlab-ce-archive-keyring.asc] https://packages.gitlab.com/gitlab/gitlab-ce/ubuntu/ {{ ansible_distribution_release }} main
+    state: present
+    filename: gitlab_gitlab-ce
+
+- name: Install GitLab CE
+  apt:
+    name: gitlab-ce
+    state: present
+
+- name: Deploy gitlab.rb configuration
+  template:
+    src: gitlab.rb.j2
+    dest: /etc/gitlab/gitlab.rb
+    mode: '0600'
+  notify: Reconfigure GitLab
+
+ 

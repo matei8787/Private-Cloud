@@ -1,0 +1,21 @@
+{
+    "version": 3,
+    "deployment": {
+        "manifest": {
+            "time": "2025-12-21T19:55:13.371322249+02:00",
+            "magic": "b44cf875d5140b0928983c23c266bd8434d5ca064f300b2c3a8da32b225dddd4",
+            "version": "v3.213.0"
+        },
+        "secrets_providers": {
+            "type": "service",
+            "state": {
+                "url": "https://api.pulumi.com",
+                "owner": "matei8787",
+                "project": "infrastructure",
+                "stack": "dev"
+            }
+        },
+        "metadata": {},
+        "resources": []
+    }
+}

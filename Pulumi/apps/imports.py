@@ -56,7 +56,7 @@ vpn_env = {
         'key': pfs_key,
         'test_CA': pfs_test_ca,
     },
-    'log_folder': safe_get(secrets, 'ovpnAllowedHosts', '/app/log'),
+    'log_folder': safe_get(secrets, 'logFolder', '/app/log'),
     'allowed_hosts': vpn_allowed_hosts,
     'verify_ssl': vpn_verify_ssl,
     'redis': {

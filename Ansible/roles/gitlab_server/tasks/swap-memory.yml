@@ -1,0 +1,30 @@
+  - name: Check if swap file exists
+    stat:
+      path: /swapfile
+    register: swap_file
+
+  - name: Create swap file
+    command: fallocate -l {{ swap_size }} /swapfile
+    when: not swap_file.stat.exists
+
+  - name: Set permissions on swap file
+    file:
+      path: /swapfile
+      mode: '0600'
+    when: not swap_file.stat.exists
+
+  - name: Format swap file
+    command: mkswap /swapfile
+    when: not swap_file.stat.exists
+
+  - name: Enable swap
+    command: swapon /swapfile
+    when: not swap_file.stat.exists
+
+  - name: Persist swap in fstab
+    mount:
+      name: none
+      src: /swapfile
+      fstype: swap
+      opts: sw
+      state: present

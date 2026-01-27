@@ -9,32 +9,32 @@ config:
   configs:appSqlName: vpn_provisioner
   configs:appSqlEngine: django.db.backends.postgresql
   configs:ubuntuCpu: "2"
-  configs:ubuntuMemory: "3072"
+  configs:ubuntuMemory: "5120"
   configs:ubuntuIsoPath: /home/matei/iso/ubuntu-24.04.3-live-server-amd64.iso
-  configs:lanBridgeName: vmbr1
+  configs:lanBridgeName: service
   configs:ubuntuFileId: local:iso/ubuntu-24.04.3-live-server-amd64.iso
-  configs:proxmoxNodeName: home
+  configs:proxmoxNodeName: pve
   configs:ubuntuTemplateId: "9000"
-  configs:ubuntuStaticIp: 192.168.1.69/24
+  configs:ubuntuStaticIp: 10.69.10.5/24
   configs:proxmoxTokenSecret:
-    secure: AAABAA7Ln3Tw6NlBPrM4Mamsuv0y3Ocroge+43RICHDdzLTOQCCzYDrmxxCQz0BNRAiyhwUc+1P9AaCnbYhMmjZL58E=
-  configs:proxmoxTokenId: root@pam!tokenas
+    secure: AAABAPJWM3ebJ4BBwZ0cm4NgYLcKIJ29kq4FL1Ji21gu8G/Sc7rtgwbeRxxhUF5w8gQhN4+deriTXgqerhQLvKIcHHE=
+  configs:proxmoxTokenId: root@pam!Test
   configs:proxmoxPass:
     secure: AAABABdf7KazaewLqbuJhlCfUGBdq6p6X+A4v2Nz4ftSADjQCO2SjYo=
   configs:postgresPass:
     secure: AAABAO7fAzOJhLRmoItegG2ctY/N/FSJSHPZYTTKrEXoXroX4LjIFiqXLg0QC68=
   configs:appSecret:
     secure: AAABAFvrsfuNnHDyFNtkgPnU2yH6Q/+nB3dK4IZ6ZFXi3c4aNl+jaxe8T7xyDJlRHvgCzCpF7tGWWUFVxXhMxRhRxA0Q+UqZ+a93bQQbYztzDMKh6P473XtuuOrXMrveZBbkxwww
-  configs:sshPublicKey: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIETW6LEHFHmZCcUbLVL4wkF+np6kw2zYlfZ9C7sq4Rro matei@matei-LOQ-15IAX9I
+  configs:sshPublicKey: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBCfmjqe34o1fAeX2Pard9E0EvxdeK5RdwJlZjuMhhzY matei@matei-LOQ-15IAX9I
   configs:pfsKey:
-    secure: AAABACohQdoR25IhceP4+8VrEhQ1f1dpxVC3VSVdc4UtLt60G+xps2UPUbgBWlFWar505j+g5t1jcBykM+7EvA==
-  configs:pfsHost: https://192.168.1.1
+    secure: AAABAKQi7f+B4sz9GPd2zQH/qCOEur6VKkBt+PM+c+Lmj6UPV9uwmAu3fkNFuVwC1da5sBrZksAmux9O4akhOpezgFrZzXOjOjqnalOElSPIGHb5PEIsYnAtvSRdd9k4
+  configs:pfsHost: https://10.69.10.1
   configs:pfsTestCA:
-    secure: AAABAEdnlQ7kARygmqjlBkfdY5mAO3fFoogb3NELaqz4Rrp12uFjoR6XI5Cy
+    secure: AAABAJVBbQGP9Fh4BXiC95oTQgXy9vbhxY2sTPCQ0Xy6N8TAzCG0qbqCUl5o
   configs:verifySSL:
     secure: AAABACZ4qUH2lz8VwLtv5B2kCyayCzE9ZVWQEJiMOrgSbi73Pw==
   configs:allowedHosts:
-    secure: AAABAB3OJP6N5xTU0VyeTYC1T71Jsw3oFiWG9B3OlWWXI0Mjcccvsb0CXO49hIHy6kMmtICx7OiO5teuBYmUpUpCud0YAgTKvs+u/LVrqBjsK0c1vnB99poHBzWmwLHoOlToVyWL46r6x/ia76U=
+    secure: AAABABjk8f/vkrWzx2kdUdzM1Cggm9Kzy5TOTbB9NG9uvJoES/3KmO2/Xi4FVvi4ShXgwxEP1iTY4kXTsAPbmisU5FfZEMv6WDmOpyX4rwD4nqY/ZIVDOs9qjXQjpcf4/bHtVjmh5bisVhwNLg==
   configs:logFolder: /app/log
   configs:redisHost: redis
   configs:redisPort: "6379"
@@ -43,15 +43,19 @@ config:
   configs:globalDnsDomain: dorb.internal
   configs:vaultProtocol: https://
   configs:helloAllowedHosts:
-    secure: AAABAPu7D3GUHDcyJNiirgCJDTfzYMJxxGahSzDOFJp1l40R5Qj4BRnIwBYZHkbLudPNUUEfcQaTay3werXpPITey9yp+LRRJEBGmkQRot6mpTE=
+    secure: AAABAPOmfauvmsqyzGTbUR6DyI1tMrtWGwZhA8LPh37fMeXm85O0ZMpXJGsoYrcaExgiHKw+6rSIoXOHFJQ47+gpbQqx9NKdpCu9dxJGboyS7g==
   configs:helloDebug: "False"
   configs:dockerSecret:
     secure: AAABALQdGlV0Th2wZTnrK+bcBavv0Ik8BXGlVvsKHZX5sW2u/QxkU5CcEw6oI/fGOmn5GxXSZ3NVK1ODJYkG1cflri0=
   configs:dockerUser: matei8787
   configs:adminUser: dorb
-  configs:dmzIpAddress: 192.168.3.69/24
-  configs:dmzVpnHost: ovpn.dorb.internal
+  configs:dmzIpAddress: 10.69.20.5/24
+  configs:dmzVpnHost: dorbjojomatei.mooo.com
   configs:dmzVpnPort: "443"
-  configs:ubuntuCpus: "1"
   configs:ubuntuStorage: "70"
-  configs:dmzBridgeName: vmbr3
+  configs:dmzBridgeName: service
+  configs:serverVlan: "10"
+  configs:dmzVlan: "20"
+  configs:managementVlan: "99"
+  configs:gitlabRunnerKey: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOblCi0fkItGCkh6z+x1rUc53FvUjuCETLIbDweIMIJ5 matei@matei-LOQ-15IAX9I
+  configs:gitlabServerKey: ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEzrDT67P1a4CTYCkMC9a1Te38WERwO6ggaNBRwgzx4B matei@matei-LOQ-15IAX9I

@@ -22,9 +22,14 @@ try:
     traefik_ovpn_host = config.require('dmzVpnHost')
     traefik_ovpn_port = config.require('dmzVpnPort')
     dmz_ip_address = config.require('dmzIpAddress')
+    gitlab_runner_key = config.require('gitlabRunnerKey')
+    gitlab_server_key = config.require('gitlabServerKey')
     
     # Use .get() for optional settings, providing a default if not set
     appDebug = config.get("appDebug") or "False"
+    dmz_vlan_id = config.get("dmzVlan") or None
+    server_vlan_id = config.get("serverVlan") or None
+    management_vlan_id = config.get("managementVlan") or None
     hello_debug = config.get('helloDebug') or "False"
     app_log_folder = config.get('logFolder') or '/app/log'
     app_redis_host = config.get('redisHost') or 'redis'
@@ -37,7 +42,7 @@ try:
     postgres_user = config.get("postgresUser") or 'admin'
     app_sql_port = config.get("appSqlPort") or 5432
     postgres_hostname = config.get("appSqlHost") or "postgres-db"
-    machines_fqdn = config.get('globalDnsDomain') or "dorb.virtual"
+    machines_fqdn = config.get('globalDnsDomain') or "dorb.local "
     ubuntu_static_ip = config.get('ubuntuStaticIp') or None
     
 except Exception as e:
@@ -87,6 +92,9 @@ pulumi.export('ubuntuStaticIp', ubuntu_static_ip)
 pulumi.export('sshPublicKey', public_key)
 pulumi.export('dmzBridgeName', dmz_lan_bridge)
 pulumi.export('dmzIpAddress', dmz_ip_address)
+pulumi.export('dmzVlan', dmz_vlan_id)
+pulumi.export('serverVlan', server_vlan_id)
+pulumi.export('managementVlan', management_vlan_id)
 
 # Application/Service Config for Project 2
 pulumi.export('postgresPass', postgres_pass)
@@ -114,3 +122,7 @@ pulumi.export('dockerPass', docker_secret)
 pulumi.export('dockerUser', docker_user)
 pulumi.export('dmzVpnHost', traefik_ovpn_host)
 pulumi.export('dmzVpnPort', traefik_ovpn_port)
+
+# Other exports
+pulumi.export('gitlabRunnerKey', gitlab_runner_key)
+pulumi.export('gitlabServerKey', gitlab_server_key)
