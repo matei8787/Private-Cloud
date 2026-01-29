@@ -8,3 +8,10 @@ venv/
 *.db
 acme/
 *migrations/
+__pycache__/*
+*.json
+*/artifacts/*
+*/job_events/*
+__pycache__/
+*.env
+*.retry
