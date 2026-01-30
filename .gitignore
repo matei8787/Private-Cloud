@@ -17,4 +17,3 @@ __pycache__/
 *.tfstate*
 *.tfvars
 *.terraform/
-*.jpg
