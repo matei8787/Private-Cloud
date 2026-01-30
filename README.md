@@ -53,3 +53,8 @@ The goal is to eliminate manual operations ("ClickOps") by defining the entire d
 │   └── main.tf              # State definition for core resources
 │
 └── orchestrate.py           # Python glue-code for triggering deployment workflows
+```
+
+## How to use it
+
+Inside the Pulumi directory, first add the configs that you need and run `pulumi up`. After that, go into the infrastructure directory and run `pulumi up` and wait for the machines to spin up and get configured with Ansible. After that, go into the apps directory and run `pulumi up` to spin up the docker containers for the apps. 
