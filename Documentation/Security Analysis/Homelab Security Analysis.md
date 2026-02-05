@@ -2,7 +2,7 @@
 ## Attack: Man-in-the-Middle (MITM)
 ## Defense: Public Key Infrastructure (PKI)
 
-![[Pasted image 20260202130939.png]]
+![CAs architecture](./Pasted%20image%2020260202130939.png)
 #### Description:
 - Root Certificate Authority (CA) only gives certificates to create internal, Intermediate CAs.
 - Services CA gives certificates for internal services trust domain (Traefik-Nginx)
@@ -11,7 +11,7 @@
 
 ## Attack: Pivoting
 ## Defense: Network Segmentation
-![[Pasted image 20260202131702.png]]
+![Network segmentation architecture](./Pasted%20image%2020260202131702.png)
 #### Description:
 - The DMZ network and the internal Services network are separated from each other and have to go through pfSense to talk to each other.
 ## Defense: Stateful Firewall
@@ -20,7 +20,7 @@
 - This prevents someone from opening a communication channel on other ports than the ones that are already services listening.
 ## Attack: Public access => Big attack surface
 ## Defense: Reducing the attack surface by accessing the private cloud only via VPN.
-![[Pasted image 20260202133639.png]]
+![VPN Server attack surface reduction](./Pasted%20image%2020260202133639.png)
 #### Description:
 - Implemented VPN access for reducing the accessibility of the internal services.
 - This reduces the attack surface of the system because there are no public facing internal services. 
