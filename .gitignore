@@ -18,4 +18,3 @@ __pycache__/
 *.tfvars
 *.terraform/
 ansible_hardening/
-Terraform/
