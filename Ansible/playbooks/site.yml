@@ -10,7 +10,7 @@
   hosts: 
     - servers
     - dmz
-    - gitlab_runner
+  #  - gitlab-runner
   become: true
 
   roles:
@@ -32,9 +32,9 @@
     - dmz
 
 
-- name: Apply Gitlab Server Config
-  hosts: gitlab_server
-  become: true
-
-  roles:
-    - gitlab_server
+#- name: Apply Gitlab Server Config
+#  hosts: gitlab-server
+#  become: true
+#
+#  roles:
+#    - gitlab_server

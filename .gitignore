@@ -17,3 +17,5 @@ __pycache__/
 *.tfstate*
 *.tfvars
 *.terraform/
+ansible_hardening/
+Terraform/

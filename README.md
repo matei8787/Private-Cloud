@@ -30,7 +30,7 @@ The goal is to eliminate manual operations ("ClickOps") by defining the entire d
 | **Infrastructure Provisioning** | **Pulumi** (Python SDK), **Terraform** (HCL), Proxmox API |
 | **Configuration Management** | **Ansible**, Jinja2 Templating, Bash Scripting |
 | **Containerization** | Docker, Docker Compose |
-| **Networking & Security** | Traefik (Reverse Proxy), OpenSSL (Internal PKI), WireGuard (VPN), UFW |
+| **Networking & Security** | Traefik (Reverse Proxy), OpenSSL (Internal PKI), OpenVPN (VPN), UFW |
 | **Backend Development** | Python (Django/Flask for custom internal tools), PostgreSQL, Redis |
 | **CI/CD** | Git, GitHub Actions (planned) |
 
@@ -48,7 +48,8 @@ The goal is to eliminate manual operations ("ClickOps") by defining the entire d
 │
 ├── Pulumi/                  # Infrastructure as Code (Python)
 │   ├── infrastructure/      # VM & LXC Provisioning logic (Proxmox Provider)
-│   └── apps/                # Application stack definitions (Custom VPN, DBs)
+│   ├── apps/                # Application stack definitions (Custom VPN, DBs)
+│   └── configs/             # Project config definitions (Proxmox url, token,)
 │
 ├── Terraform/               # Infrastructure as Code (HCL) - *Alternative Provisioner*
 │   ├── modules/             # Reusable infrastructure modules

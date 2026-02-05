@@ -11,3 +11,4 @@ gitlab_ssh_port: 2222
 gitlab_internal_port: 8081
 gitlab_external_url: "https://gitlab.dorb.internal"
 swap_size: "4G"
+openclaw_admin_key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDwlAtndfLqXe67YuBW2cZxlJXYJVEI9aItlDtFnPmu+ matei@matei-LOQ-15IAX9I"

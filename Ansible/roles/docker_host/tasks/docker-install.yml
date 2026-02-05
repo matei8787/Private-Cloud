@@ -91,3 +91,9 @@
     name: docker
     state: started
     enabled: yes
+
+- name: Add admin user to docker group
+  user:
+    name: dorb
+    groups: docker
+    append: yes
