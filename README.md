@@ -82,18 +82,6 @@ Python 3.10+
 
 Terraform & Ansible installed locally
 
-#### Deployment Workflow
-```
-# Using Pulumi:
-cd Pulumi/config
-# add the configurations to the stack.
-# Now, inside Pulumi/config
-pulumi up
-# Now wait for the config to be done
-cd ../infrastructure && pulumi up
-# Now wait for the VMs to be provisioned and get configured by ansible (automatically)
-cd ../apps && pulumi up
-```
 
 #### 🔮 Future Roadmap
 [ ] Kubernetes Migration: Moving container workloads from Docker Compose to a K3s cluster.
