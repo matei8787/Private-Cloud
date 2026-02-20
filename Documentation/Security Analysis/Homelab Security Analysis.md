@@ -69,6 +69,6 @@ def deceptive_view(req):
 
 # The best defense for any technology: DON'T USE IT
 ## Attack: SQL Injection
-#### We delegate all the database operations to postgres and redis.
+#### We delegate all the database operations to the ORM.
 ## Attack: Cross-site Scripting (XSS)
 #### We never render user input on our site. We just use it in the backend.
