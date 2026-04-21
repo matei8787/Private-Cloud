@@ -1,8 +1,0 @@
-- name: Configure Gitlab Server Firewall
-  import_tasks: firewall.yml
-- name: Configure swap memory
-  import_tasks: swap-memory.yml
-- name: Install Gitlab Server
-  import_tasks: install-gitlab.yml
-- name: Configure SSH 
-  import_tasks: ssh-config.yml

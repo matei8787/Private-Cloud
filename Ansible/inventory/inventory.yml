@@ -10,12 +10,4 @@ all:
         dmz-vm:
           ansible_host: 10.69.20.5
           ansible_port: 22
-    gitlab:
-      hosts:
-        gitlab-server:
-          ansible_host: 10.69.10.6
-          ansible_port: 22
-        gitlab-runner:
-          ansible_host: 10.69.10.7
-          ansible_port: 22
 

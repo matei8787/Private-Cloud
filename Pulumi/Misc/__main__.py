@@ -1,7 +1,4 @@
 """A Python Pulumi program"""
-
-from email.policy import default
-from logging import config
 import pulumi
 from Proxmox.provider import ProxmoxProviderBuilder
 from Proxmox.server import ProxmoxServerBuilder
@@ -55,22 +52,10 @@ def create_proxmox_provider():
     provider = ProxmoxProviderBuilder('proxmox-auth', True).set_token(cfg['pxm_token_id'], cfg['pxm_token_secret']).set_insecure(True).set_url(cfg['pxm_url']).build()
     return provider
 
-def create_streaming_server(provider: ProxmoxProviderBuilder):
-    server = (ProxmoxServerBuilder('pve', 9000, provider)
-            .set_name("streaming-server")
-            .set_server_name(cfg['server_name'])
-            .set_resources(cpu=cfg['server_cpus'], memory=cfg['server_memory'], storage=cfg['server_storage'], network_adapter=cfg['server_bridge_name'], vlan_id=cfg['server_vlan_id'], firewall=False, cpu_type=pulumi.Output.concat("host"))
-            .set_static_network(cfg['server_ip'])
-            .set_initialization()
-            .set_user_account('dorb', cfg['public_key'])
-            .build()
-            )
-    return server
 
 def main():
     get_config()
     proxmox_provider = create_proxmox_provider()
-    streaming_server = create_streaming_server(proxmox_provider)
 
 main()
     

@@ -19,3 +19,4 @@ __pycache__/
 *.terraform/
 ansible_hardening/
 *.lock.hcl
+Pulumi/configs/Pulumi.*
