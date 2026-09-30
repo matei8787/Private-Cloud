@@ -50,6 +50,8 @@ except Exception as e:
 
 
 
+pxm_insecure = config.get_bool('proxmoxInsecure') or False
+
 server_name = safe_get_output("serverName", "ubuntu")
 server_cpus = safe_get_output("ubuntuCpu", 2)
 server_memory =safe_get_output("ubuntuMemory", 4096)

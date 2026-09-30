@@ -9,7 +9,14 @@ import pulumi
 import os 
 
 def make_proxmox_provider():
-    provider = ProxmoxProviderBuilder('proxmox-auth', True).set_token(imports.pxm_token_id, imports.pxm_token_secret).set_insecure(True).set_url(imports.pxm_url).build()
+    # insecure defaults to False. Set `pulumi config set proxmoxInsecure true`
+    # only while the Proxmox API still serves its self-signed certificate;
+    # trusting the internal CA on the machine running Pulumi is the real fix.
+    provider = (ProxmoxProviderBuilder('proxmox-auth')
+                .set_token(imports.pxm_token_id, imports.pxm_token_secret)
+                .set_insecure(imports.pxm_insecure)
+                .set_url(imports.pxm_url)
+                .build())
     return provider
 def generate_inventory_content(resolved_machines):
     inventory_machines = {"all":{"children":{}}}

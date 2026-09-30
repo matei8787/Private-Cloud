@@ -49,7 +49,14 @@ def get_config():
     cfg['public_key'] = public_key
     
 def create_proxmox_provider():
-    provider = ProxmoxProviderBuilder('proxmox-auth', True).set_token(cfg['pxm_token_id'], cfg['pxm_token_secret']).set_insecure(True).set_url(cfg['pxm_url']).build()
+    # insecure defaults to False. Set `pulumi config set proxmoxInsecure true`
+    # only while the Proxmox API still serves its self-signed certificate.
+    insecure = pulumi.Config().get_bool('proxmoxInsecure') or False
+    provider = (ProxmoxProviderBuilder('proxmox-auth')
+                .set_token(cfg['pxm_token_id'], cfg['pxm_token_secret'])
+                .set_insecure(insecure)
+                .set_url(cfg['pxm_url'])
+                .build())
     return provider
 
 

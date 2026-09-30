@@ -9,7 +9,10 @@ terraform {
 provider "proxmox" {
     endpoint = var.pxm_url
     api_token = "${var.pxm_token_id}=${var.pxm_token_secret}"
-    insecure = true
+    # Defaults to false. Set pxm_insecure = true only while the API still serves
+    # its self-signed certificate; trusting the internal CA on the workstation
+    # is the real fix.
+    insecure = var.pxm_insecure
     ssh {
         agent = true
     }
