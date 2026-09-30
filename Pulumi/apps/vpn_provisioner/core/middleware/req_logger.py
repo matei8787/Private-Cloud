@@ -13,7 +13,9 @@ class ReqLoggerMiddleware:
         t1 = time()
         logger.info(
             "%s %s %s %s %d %.3f",
-            req.client_ip,
+            # IPSMiddleware sets client_ip. Fall back rather than raising if the
+            # middleware order changes, so a logging concern cannot break a request.
+            getattr(req, "client_ip", "unknown"),
             req.method,
             req.get_full_path(),
             req.META.get("HTTP_USER_AGENT", "-"),

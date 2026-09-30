@@ -1,22 +1,26 @@
-
 entryPoints:
   web:
     address: ":80"
-    forwardedHeaders:
-      trustedIPs:
-        - "0.0.0.0/0"
   websec:
     address: ":443"
-    forwardedHeaders:
-      trustedIPs:
-        - "0.0.0.0/0"
 
-  
+# forwardedHeaders.trustedIPs is deliberately absent.
+#
+# It used to be set to 0.0.0.0/0, which told Traefik to preserve any
+# X-Forwarded-For a client sent. Since Traefik is the internet-facing edge, its
+# peer *is* the client, so trusting that header let anyone dictate the IP the
+# application saw. The IDS/IPS in the VPN portal keys its rate limiting and bans
+# on that IP, so a rotating fake value bypassed both.
+#
+# With no trustedIPs, Traefik discards the incoming header and sets
+# X-Forwarded-For to the address it actually observes. Anything downstream that
+# needs the client IP must count from the right-hand side of the chain; see
+# core/utils/client_ip.py in the VPN portal.
+
 providers:
   file:
     directory: "/dynamic"
     watch: true
-
 certificatesResolvers:
   letsencrypt:
     acme:
@@ -24,11 +28,9 @@ certificatesResolvers:
       storage: "/acme/acme.json"
       httpChallenge:
         entryPoint: web
-
 log:
   level: INFO
   filePath: /logs/traefik.log
-
 accessLog:
   filePath: /logs/access.log
   bufferingSize: 100

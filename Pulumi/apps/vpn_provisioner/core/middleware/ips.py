@@ -1,27 +1,24 @@
 from django.http import HttpResponse
+
 from core.security import bruteforce, user_agent
+from core.utils.client_ip import get_client_ip
+
 
 class IPSMiddleware:
     def __init__(self, get_response):
-        self.get_response = get_response   
-        
-    def __call__(self, req):
-        ip = req.META.get("HTTP_X_FORWARDED_FOR", "unknown")
-        if ip != "unknown":
-            ip = [h.strip() for h in ip.split(",")]
-            ip = ip[0]
-        else:
-            ip = req.META.get("REMOTE_ADDR", "unknown")
+        self.get_response = get_response
 
+    def __call__(self, req):
+        ip = get_client_ip(req)
         ua = req.META.get("HTTP_USER_AGENT", "unknown")
 
-        
+        # Set before any early return so ReqLoggerMiddleware always has it.
+        req.client_ip = ip
+
         if user_agent.is_forbidden(ua):
             return HttpResponse("Forbidden!", status=403)
-        
+
         if bruteforce.is_banned(ip):
             return HttpResponse("Forbidden!", status=403)
-        
-        req.client_ip = ip
-        
+
         return self.get_response(req)
