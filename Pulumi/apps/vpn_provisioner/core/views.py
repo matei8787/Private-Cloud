@@ -36,7 +36,7 @@ def vpn_export_view(req):
     code = Code.objects.filter(code=req_code).first()
     if not code or code.expires_at < timezone.now():
         sec_logger.warning("User %s used an incorrect code: %s", username, req_code)
-        bruteforce.increment_failed_atempt(req.client_ip)
+        bruteforce.increment_failed_attempt(req.client_ip)
         return JsonResponse({"success": False, "error":"Invalid Code"}, status=400)
 
     bruteforce.reset_failed_attempts(req.client_ip)
